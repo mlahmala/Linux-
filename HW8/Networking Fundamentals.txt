@@ -1,0 +1,66 @@
+(Phase 1)
+-After running fping command against the IP range of the Hollywood Database server:
+fping -s -g 15.199.95.91/28 shows that the entire range is unreachable
+No vulnerabilities to declare in this server.
+-After running fping command against the IP range of the Hollywood Web servers:
+fping -s -g 15.199.94.91/28  shows that the entire range is unreachable
+No vulnerabilities to declare in this server. 
+
+-After running fping command against the IP range of the Hollywood Web server:
+fping -s -g 15.199.96.91/28  shows that the entire range is unreachable
+No vulnerabilities to declare in this server.
+
+-After running fping command against the IP range of the Hollywood Application server:
+fping -s -g 167.172.144.11/32 shows the IP address is alive.
+This is a vulnerability.
+
+-After running fping command against the IP range of the Hollywood Application server:
+fping -s -g 11.199.141.91/28 shows that the entire range is unreachable.
+No vulnerabilities to declare in this server.
+
+-This is happened on network layer.
+
+(Phase 2)
+
+-By running the command nmap -sS 167.172.144.11 it shows a potential vulnerability after finding SSH port:22 is open. I recommend closing the ssh port:22 the soonest the better.
+-SYN SCAN find and shows which ports are open, it occurs on the OSI layer 4:Transport.
+
+(Phase3)
+-Post subnetting ssh jimi@167.172.144.11
+Password:Hendrix
+I found the configuration file is /etc/hosts
+To view the file, I used cat /etc/hosts
+The entry set to 98.137.246.8 rollingstone
+To exit the subnetting, I typed exit.nslookup
+-nslookup rollingstone.com shows the following:
+Server:		8.8.8.8
+Address:	8.8.8.8#53
+Non-authoritative answer:
+Name:	rollingstone.com
+Address: 151.101.0.69
+Name:	rollingstone.com
+Address: 151.101.128.69
+Name:	rollingstone.com
+Address: 151.101.192.69
+Name:	rollingstone.com
+Address: 151.101.64.69
+_nslookup 98.137.246.8 shows the followings:
+nslookup 98.137.246.8
+8.246.137.98.in-addr.arpa	name = unknown.yahoo.com.
+Authoritative answers can be found from:
+-The information found indicate that the IP address set with rollingstone.com in /etc/hosts, is not the legitimate IP used by the site rollingstone.com, and that explains why sometimes when the Rockstar corp office tries to access the website, a different, unusual website comes up. This sited IP redirects the traffic to a potential malicious website from the firewall to avoid future redirection to it. These findings also show DNS and HTTP activities, which both occur in the OSI layer 7 :Application.
+
+PHASE 4
+-From the packets captured in the activity in the Hollywood office, I have filtered arp.opcode ==1(request) and then arp.opcode == 2(response) I determined that the source VMware_1d:b3:b1 sent a broadcast request.
+Two IP address responded, 192.168.47.1 and 192.168.47.200.
+192.168.47.200 was found to be a duplicate IP address for two MAC addresses are located in the same location. That concludes an ARP spoofing is occurring.
+The illegitimate user of the IP 192.168.47.200 is the user of the device with the MAC address(00:0c:29:1d:b3:b1)
+-After running the filter HTTP.request.method == POST, I determined that a Rockstar corps worker sent a message to get the blues corp from an IP source 10.0.2.15 to the IP 104.18.126.89 @http://www.gottheblues.yolasite.com/contact-us.php
+Posting date:2019-08-15
+Listed name: Hacker
+Listed email: Hacker@rockstarcorp.com
+Message content:<<Hi got left port22,ssh open if you want to hack in. For 1 million dollar, I will provide you the user and password>>
+-The threats are internal and external, and the best mitigation is to close the port:22,ssh, to block any attempt to hack in from GottheBlues corp and to terminate the untrusty employee from the company and block his access to the Rockstar corp network.
+ARP works between layer 2 and 3 since MAC address occurs in data link layer 2 and IPs occur in network layer3.
+HTTP is associated with the application layer 7 which provides services for viewing web pages.
+
